@@ -1,0 +1,11 @@
+J.A.R.V.I.S Android Proje Paketi
+
+Bu klasör yapısı GitHub Actions ve Buildozer ile Android APK derlemeniz için hazırlanmıştır.
+
+Dosya Yapısı:
+- .github/workflows/main.yml : GitHub Actions otomatik derleme otomasyonu
+- buildozer.spec : Android paketleme, izin ve kütüphane konfigürasyonu
+- .gitignore : Git filtreleme dosyası
+- app_config.py : Konfigürasyon yönetimi
+- main.py : Uygulama giriş noktası
+- requirements.txt : Python kütüphane bağımlılıkları
