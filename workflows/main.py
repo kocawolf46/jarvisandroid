@@ -17,11 +17,19 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Build with Buildozer
-        uses: akirasanya/buildozer-action@v1
-        with:
-          command: buildozer android debug
-          buildozer_version: stable
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+
+      - name: Install Buildozer & Cython
+        run: |
+          pip install --upgrade pip
+          pip install buildozer cython
+
+      - name: Build APK with Buildozer
+        run: |
+          buildozer -v android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
