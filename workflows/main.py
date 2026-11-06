@@ -1,26 +1,30 @@
-#!/usr/bin/env python3
-JARVIS Android — Gercek zamanli sesli yardimci cekirdegi
-"""
+name: Build Android APK
 
-import asyncio
-import os
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
 
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.button import Button
+jobs:
+  build:
+    runs-on: ubuntu-22.04
 
-class JarvisUI(BoxLayout):
-    def __init__(self, **kwargs):
-        super().__init__(orientation='vertical', **kwargs)
-        self.label = Label(text='J.A.R.V.I.S Android Ready', font_size='20sp')
-        self.add_widget(self.label)
-        self.btn = Button(text='Başlat', size_hint=(1, 0.2))
-        self.add_widget(self.btn)
+    steps:
+      - uses: actions/checkout@v4
 
-class JarvisApp(App):
-    def build(self):
-        return JarvisUI()
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-if __name__ == '__main__':
-    JarvisApp().run()
+      - name: Build with Buildozer
+        uses: akirasanya/buildozer-action@v1
+        with:
+          command: buildozer android debug
+          buildozer_version: stable
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jarvis-apk
+          path: bin/*.apk
